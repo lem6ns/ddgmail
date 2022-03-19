@@ -2,7 +2,7 @@
     "type": "module",
     "name": "ddgmail",
     "description": "An unofficial CLI for DuckDuckGo Email Protection.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "license": "MIT",
     "bin": {
         "ddgmail": "index.js"
