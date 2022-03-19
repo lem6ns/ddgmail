@@ -1,0 +1,43 @@
+{
+    "name": "ddgmail",
+    "description": "An unofficial CLI for DuckDuckGo Email Protection.",
+    "version": "1.0.0",
+    "license": "MIT",
+    "bin": {
+        "ddgmail": "index.js"
+    },
+    "author": {
+        "name": "lem6ns",
+        "email": "sensei@duck.com",
+        "url": "https://lem6ns.github.io"
+    },
+    "keywords": [
+        "ddgmail",
+        "duckduckgo",
+        "ddg",
+        "mail",
+        "email",
+        "lem6ns"
+    ],
+    "files": [
+        "index.js",
+        "utils"
+    ],
+    "scripts": {
+        "format": "prettier --write \"./**/*.{js,json}\""
+    },
+    "dependencies": {
+        "chalk": "^5.0.1",
+        "cli-alerts": "^1.2.2",
+        "cli-handle-error": "^4.4.0",
+        "cli-handle-unhandled": "^1.1.1",
+        "cli-meow-help": "^2.0.2",
+        "cli-welcome": "^2.2.2",
+        "meow": "^9.0.0",
+        "node-fetch": "^2.6.7",
+        "prompt": "^1.2.2"
+    },
+    "devDependencies": {
+        "prettier": "^2.6.0"
+    }
+}
