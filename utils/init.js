@@ -1,17 +1,23 @@
-const welcome = require('cli-welcome');
-const pkg = require('./../package.json');
-const unhandled = require('cli-handle-unhandled');
+import { readFile } from 'fs/promises';
+const pkg = JSON.parse(
+    await readFile(
+        new URL('./../package.json',
+            import.meta.url)
+    )
+);
+import welcome from 'cli-welcome'
+import unhandled from 'cli-handle-unhandled'
 
-module.exports = ({ clear = true }) => {
-	unhandled();
-	welcome({
-		title: `ddgmail`,
-		tagLine: `by lem6ns`,
-		description: pkg.description,
-		version: pkg.version,
-		bgColor: '#36BB09',
-		color: '#000000',
-		bold: true,
-		clear
-	});
+export default function({ clear = true }) {
+    unhandled();
+    welcome({
+        title: `ddgmail`,
+        tagLine: `by lem6ns`,
+        description: pkg.description,
+        version: pkg.version,
+        bgColor: '#36BB09',
+        color: '#000000',
+        bold: true,
+        clear
+    });
 };

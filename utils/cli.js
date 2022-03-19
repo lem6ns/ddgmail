@@ -1,13 +1,7 @@
-const meow = require('meow');
-const meowHelp = require('cli-meow-help');
+import meow from 'meow'
+import meowHelp from 'cli-meow-help'
 
 const flags = {
-    debug: {
-        type: `boolean`,
-        default: false,
-        alias: `d`,
-        desc: `Print debug info`
-    },
     version: {
         type: `boolean`,
         alias: `v`,
@@ -44,4 +38,4 @@ const options = {
     flags
 };
 
-module.exports = meow(helpText, options);
+export default meow(helpText, options);

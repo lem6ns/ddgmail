@@ -1,4 +1,5 @@
 {
+    "type": "module",
     "name": "ddgmail",
     "description": "An unofficial CLI for DuckDuckGo Email Protection.",
     "version": "1.0.0",
@@ -24,7 +25,8 @@
         "utils"
     ],
     "scripts": {
-        "format": "prettier --write \"./**/*.{js,json}\""
+        "format": "prettier --write \"./**/*.{js,json}\"",
+        "test": "jest --watchAll --verbose"
     },
     "dependencies": {
         "chalk": "^5.0.1",
@@ -33,9 +35,10 @@
         "cli-handle-unhandled": "^1.1.1",
         "cli-meow-help": "^2.0.2",
         "cli-welcome": "^2.2.2",
+        "clipboardy": "^3.0.0",
+        "inquirer": "^8.2.1",
         "meow": "^9.0.0",
-        "node-fetch": "^2.6.7",
-        "prompt": "^1.2.2"
+        "node-fetch": "^2.6.7"
     },
     "devDependencies": {
         "prettier": "^2.6.0"
