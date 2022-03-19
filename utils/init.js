@@ -8,16 +8,15 @@ const pkg = JSON.parse(
 import welcome from 'cli-welcome'
 import unhandled from 'cli-handle-unhandled'
 
-export default function({ clear = true }) {
+export default function() {
     unhandled();
     welcome({
-        title: `ddgmail`,
+        title: `DuckDuckGo Mail`,
         tagLine: `by lem6ns`,
         description: pkg.description,
         version: pkg.version,
         bgColor: '#36BB09',
         color: '#000000',
-        bold: true,
-        clear
+        bold: true
     });
 };

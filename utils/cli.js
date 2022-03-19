@@ -22,7 +22,13 @@ const flags = {
 };
 
 const commands = {
-    help: { desc: `Print help info` }
+    help: { desc: `Print help info` },
+    new: { desc: `Create a new private email address` },
+    amount: { desc: `Get the amount of private email addresses you have generated` },
+    access: { desc: `Get your access token` },
+    // join: { desc: `Join the waitlist` },
+    // check: { desc: `Check if you are in the waitlist` },
+    // create: { desc: `Create an Email Protection account with an invite code` },
 };
 
 const helpText = meowHelp({
