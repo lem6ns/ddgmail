@@ -17,7 +17,7 @@ import ora from "ora";
 
 const input = cli.input;
 const flags = cli.flags;
-const { username, debug } = flags;
+const { username, noClipboard } = flags;
 const API_URL = "https://quack.duckduckgo.com/api";
 
 // #region APIs
@@ -84,12 +84,15 @@ async function auth(user) {
         }).then(r => r.json());
 
         if (dashboardResp.error) {
-            return console.log(dashboardResp.error);
+            return alert({ type: "error", msg: dashboardResp });
         };
 
         spinner.succeed("Authentication successful!");
         return dashboardResp;
-    }
+    };
+
+    spinner.error("An error occured (Invalid OTP Error)")
+    return authResp;
 };
 
 async function getUsername() {
@@ -124,13 +127,13 @@ async function getUsername() {
                 if (flags.accessToken) {
                     accessToken = flags.accessToken;
                 } else {
-                    user = await getUsername();
+                    const user = await getUsername();
                     accessToken = (await auth(user)).user["access_token"];
                 };
 
                 const address = await email.private.create(accessToken);
-                alert({ type: `success`, msg: `Successfully created a private email address (${address}). It has been copied to your clipboard.` });
-                clipboard.writeSync(address);
+                alert({ type: `success`, msg: `Successfully created a private email address (${address}). ${!noClipboard ? "It has been copied to your clipboard." : ""}` });
+                if (!noClipboard) clipboard.writeSync(address);
                 break;
             case "amount":
                 const name = await getUsername();
@@ -139,10 +142,12 @@ async function getUsername() {
                 break;
             case "access":
                 const user = await getUsername();
-                const token = (await auth(user)).user["access_token"];
+                const authResp = await auth(user);
+                if (authResp.error) return alert({ type: "error", msg: "An error occured (Invalid OTP Error)" });
+                const token = authResp.user["access_token"];
 
-                alert({ type: `success`, msg: `Your access token is: "${token}". This has been copied to your clipboard.` });
-                clipboard.writeSync(token);
+                alert({ type: `success`, msg: `Your access token is: "${token}". ${!noClipboard ? "This has been copied to your clipboard." : ""}` });
+                if (!noClipboard) clipboard.writeSync(token);
                 break;
         }
     }

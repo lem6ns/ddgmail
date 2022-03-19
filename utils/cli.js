@@ -19,12 +19,18 @@ const flags = {
         desc: `Access token of duck.com account`,
         default: ``
     },
+    noClipboard: {
+        type: `boolean`,
+        alias: `n`,
+        desc: `Don't automatically copy to clipboard`,
+        default: false
+    }
 };
 
 const commands = {
     help: { desc: `Print help info` },
     new: { desc: `Create a new private email address` },
-    amount: { desc: `Get the amount of private email addresses you have generated` },
+    amount: { desc: `Get the amount of private email addresses you have generated (Cannot use access token)` },
     access: { desc: `Get your access token` },
     // join: { desc: `Join the waitlist` },
     // check: { desc: `Check if you are in the waitlist` },

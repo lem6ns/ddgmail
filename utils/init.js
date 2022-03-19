@@ -12,11 +12,12 @@ export default function() {
     unhandled();
     welcome({
         title: `DuckDuckGo Mail`,
-        tagLine: `by lem6ns`,
+        tagLine: `by lemons`,
         description: pkg.description,
         version: pkg.version,
         bgColor: '#36BB09',
         color: '#000000',
-        bold: true
+        bold: true,
+        clear: false
     });
 };
