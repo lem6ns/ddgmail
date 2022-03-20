@@ -249,7 +249,7 @@ async function getUsername() {
 				break;
 
 			case "category-change":
-				const { cat, index } = await inquirer.prompt([
+				let { cat, index } = await inquirer.prompt([
 					{
 						type: "input",
 						name: "cat",
@@ -261,6 +261,7 @@ async function getUsername() {
 						message: "Enter index number:"
 					}
 				]);
+				index = parseInt(index);
 
 				settings.changeSetting(
 					"generatedEmails",
@@ -279,13 +280,14 @@ async function getUsername() {
 				break;
 
 			case "email-delete":
-				const { i } = await inquirer.prompt([
+				let { i } = await inquirer.prompt([
 					{
 						type: "input",
 						name: "i",
 						message: "Enter index number:"
 					}
 				]);
+				i = parseInt(i);
 
 				settings.changeSetting(
 					"generatedEmails",
