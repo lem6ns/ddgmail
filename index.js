@@ -216,7 +216,7 @@ async function getUsername() {
                     alert({
                                 type: `success`,
                                 msg: `Successfully created a private email address (${address})${
-						category ? ` with the category ${category}` : ""
+						category !== "E-Mail" ? ` with the category ${category}` : ""
 					}. ${
 						!noClipboard
 							? "It has been copied to your clipboard."
@@ -258,10 +258,7 @@ async function getUsername() {
 					{
 						type: "input",
 						name: "index",
-						message: "Enter index number:",
-						validate: value => {
-							!isNaN(parseInt(value));
-						}
+						message: "Enter index number:"
 					}
 				]);
 
