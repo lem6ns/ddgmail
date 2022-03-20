@@ -1,9 +1,9 @@
-import { readFile } from 'fs/promises';
+import { readFile } from "fs/promises";
 const pkg = JSON.parse(
-	await readFile(new URL('./../package.json', import.meta.url))
+	await readFile(new URL("./../package.json", import.meta.url))
 );
-import welcome from 'cli-welcome';
-import unhandled from 'cli-handle-unhandled';
+import welcome from "cli-welcome";
+import unhandled from "cli-handle-unhandled";
 
 export default function () {
 	unhandled();
@@ -12,8 +12,8 @@ export default function () {
 		tagLine: `by lemons`,
 		description: pkg.description,
 		version: pkg.version,
-		bgColor: '#36BB09',
-		color: '#000000',
+		bgColor: "#36BB09",
+		color: "#000000",
 		bold: true,
 		clear: false
 	});

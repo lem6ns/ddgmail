@@ -1,5 +1,5 @@
-import meow from 'meow';
-import meowHelp from 'cli-meow-help';
+import meow from "meow";
+import meowHelp from "cli-meow-help";
 
 const flags = {
 	version: {
@@ -35,10 +35,10 @@ const commands = {
 	},
 	access: { desc: `Get your access token` },
 	config: { desc: `Open config.json in your default editor` },
-	'config-table': { desc: `Print config as a table` },
-	'config-set': { desc: `Set a config value` },
-	'config-get': { desc: `Get a config value` },
-	'config-reset': { desc: `Reset config to default` }
+	"config-table": { desc: `Print config as a table` },
+	"config-set": { desc: `Set a config value` },
+	"config-get": { desc: `Get a config value` },
+	"config-reset": { desc: `Reset config to default` }
 	// join: { desc: `Join the waitlist` },
 	// check: { desc: `Check if you are in the waitlist` },
 	// create: { desc: `Create an Email Protection account with an invite code` },

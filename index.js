@@ -7,25 +7,25 @@
  * @author lem6ns <lem6ns.github.io>
  */
 
-import init from './utils/init.js';
-import cli from './utils/cli.js';
-import fetch from 'node-fetch';
-import inquirer from 'inquirer';
-import alert from 'cli-alerts';
-import clipboard from 'clipboardy';
-import ora from 'ora';
-import fs from 'fs';
-import launch from 'launch-editor';
+import init from "./utils/init.js";
+import cli from "./utils/cli.js";
+import fetch from "node-fetch";
+import inquirer from "inquirer";
+import alert from "cli-alerts";
+import clipboard from "clipboardy";
+import ora from "ora";
+import fs from "fs";
+import launch from "launch-editor";
 
 const input = cli.input;
 const flags = cli.flags;
 const { username, noClipboard } = flags;
-const API_URL = 'https://quack.duckduckgo.com/api';
+const API_URL = "https://quack.duckduckgo.com/api";
 const userDataFolder =
 	process.env.APPDATA ||
-	(process.platform == 'darwin'
-		? process.env.HOME + '/Library/Preferences'
-		: process.env.HOME + '/.local/share');
+	(process.platform == "darwin"
+		? process.env.HOME + "/Library/Preferences"
+		: process.env.HOME + "/.local/share");
 const settingsFolder = `${userDataFolder}/lemons/ddgmail`;
 const settingsFile = `${settingsFolder}/settings.json`;
 
@@ -39,8 +39,8 @@ function createSettingsFile() {
 	fs.writeFileSync(
 		settingsFile,
 		JSON.stringify({
-			username: '',
-			accessToken: '',
+			username: "",
+			accessToken: "",
 			generatedEmails: [],
 			amountGenerated: 0
 		}),
@@ -73,9 +73,9 @@ const email = {
 	private: {
 		create: async accessToken => {
 			let { address } = await fetch(`${API_URL}/email/addresses`, {
-				method: 'POST',
+				method: "POST",
 				headers: {
-					Authorization: 'Bearer ' + accessToken
+					Authorization: "Bearer " + accessToken
 				}
 			}).then(r => r.json());
 			if (!address)
@@ -83,17 +83,19 @@ const email = {
 
 			address = `${address}@duck.com`;
 			settings.changeSetting(
-				'amountGenerated',
-				settings.getSetting('amountGenerated') + 1
+				"amountGenerated",
+				settings.getSetting("amountGenerated") + 1
 			);
-			settings.changeSetting('generatedEmails', [
-				...settings.getSetting('generatedEmails'),
+			settings.changeSetting("generatedEmails", [
+				...settings.getSetting("generatedEmails"),
 				address
 			]);
+			if (settings.getSetting("accessToken") !== accessToken)
+				settings.changeSetting("accessToken", accessToken);
 			return `${address}`;
 		},
 		getEmailAmount: async username => {
-			return (await auth(username)).stats['addresses_generated'];
+			return (await auth(username)).stats["addresses_generated"];
 		}
 	},
 	signUp: async (code, forwardingEmail, emailChoice) => {}
@@ -116,11 +118,11 @@ async function auth(user) {
 	});
 	let { otp } = await inquirer.prompt([
 		{
-			type: 'input',
-			name: 'otp',
-			message: 'Enter OTP code:',
+			type: "input",
+			name: "otp",
+			message: "Enter OTP code:",
 			validate: value => {
-				if (value.trim().split(' ').length === 4) {
+				if (value.trim().split(" ").length === 4) {
 					return true;
 				}
 			}
@@ -128,12 +130,12 @@ async function auth(user) {
 	]);
 	otp = otp.trim();
 
-	const spinner = ora('Authenticating').start();
+	const spinner = ora("Authenticating").start();
 
 	const authResp = await fetch(
-		`${API_URL}/auth/login?otp=${otp.replace(/ /g, '+')}&user=${user}`
+		`${API_URL}/auth/login?otp=${otp.replace(/ /g, "+")}&user=${user}`
 	).then(r => r.json());
-	if (authResp.status == 'authenticated') {
+	if (authResp.status == "authenticated") {
 		const dashboardResp = await fetch(`${API_URL}/email/dashboard`, {
 			headers: {
 				Authorization: `Bearer ${authResp.token}`
@@ -141,36 +143,43 @@ async function auth(user) {
 		}).then(r => r.json());
 
 		if (dashboardResp.error) {
-			return alert({ type: 'error', msg: dashboardResp });
+			return alert({ type: "error", msg: dashboardResp });
 		}
 
-		spinner.succeed('Authentication successful!');
-		settings.changeSetting('username', user);
+		spinner.succeed("Authentication successful!");
+		settings.changeSetting("username", user);
 		settings.changeSetting(
-			'accessToken',
-			dashboardResp.user['access_token']
+			"accessToken",
+			dashboardResp.user["access_token"]
 		);
+		alert({
+			type: `success`,
+			msg: `Set username & accessToken successfully.`
+		});
 		return dashboardResp;
 	}
 
-	spinner.fail('An error occured (Invalid OTP Error)');
+	spinner.fail("An error occured (Invalid OTP Error)");
 	return authResp;
 }
 
 async function getUsername() {
-	if (username) return username;
-	if (settings.getSetting('username')) return settings.getSetting('username');
+	if (username) {
+		settings.changeSetting("username", username);
+		return username;
+	}
+	if (settings.getSetting("username")) return settings.getSetting("username");
 	const user = await inquirer
 		.prompt([
 			{
-				type: 'input',
-				name: 'username',
-				message: 'Enter duck.com username:'
+				type: "input",
+				name: "username",
+				message: "Enter duck.com username:"
 			}
 		])
 		.then(answer => answer.username);
 
-	settings.changeSetting('username', user);
+	settings.changeSetting("username", user);
 	return user;
 }
 // #endregion
@@ -189,15 +198,15 @@ async function getUsername() {
 			//     const joinResp = await fetch(`${API_URL}/auth/waitlist/join`).then(r => r.json());
 			//     // TODO: save resp.token somewhere...
 			//     break;
-			case 'new':
+			case "new":
 				let accessToken;
 				if (flags.accessToken) {
 					accessToken = flags.accessToken;
-				} else if (settings.getSetting('accessToken')) {
-					accessToken = settings.getSetting('accessToken');
+				} else if (settings.getSetting("accessToken")) {
+					accessToken = settings.getSetting("accessToken");
 				} else {
 					const user = await getUsername();
-					accessToken = (await auth(user)).user['access_token'];
+					accessToken = (await auth(user)).user["access_token"];
 				}
 
 				const address = await email.private.create(accessToken);
@@ -205,60 +214,60 @@ async function getUsername() {
 					type: `success`,
 					msg: `Successfully created a private email address (${address}). ${
 						!noClipboard
-							? 'It has been copied to your clipboard.'
-							: ''
+							? "It has been copied to your clipboard."
+							: ""
 					}`
 				});
 				if (!noClipboard) clipboard.writeSync(address);
 				break;
-			case 'amount':
+			case "amount":
 				const name = await getUsername();
 				const amount = await email.private.getEmailAmount(name);
 				alert({
 					type: `success`,
 					msg: `You have generated ${amount} private email addresses, and have generated ${settings.getSetting(
-						'amountGenerated'
+						"amountGenerated"
 					)} using this tool.`
 				});
 				break;
-			case 'access':
+			case "access":
 				const user = await getUsername();
 				const authResp = await auth(user);
 				if (authResp.error)
 					return alert({
-						type: 'error',
-						msg: 'An error occured (Invalid OTP Error)'
+						type: "error",
+						msg: "An error occured (Invalid OTP Error)"
 					});
-				const token = authResp.user['access_token'];
+				const token = authResp.user["access_token"];
 
 				alert({
 					type: `success`,
 					msg: `Your access token is: "${token}". ${
 						!noClipboard
-							? 'This has been copied to your clipboard.'
-							: ''
+							? "This has been copied to your clipboard."
+							: ""
 					}`
 				});
 				if (!noClipboard) clipboard.writeSync(token);
 				break;
-			case 'config':
-				launch(settingsFile, 'code');
+			case "config":
+				launch(settingsFile, "code");
 				alert({
 					type: `success`,
 					msg: `Opened ${settingsFile} in your default editor.`
 				});
 				break;
-			case 'config-set':
+			case "config-set":
 				const { key, value } = await inquirer.prompt([
 					{
-						type: 'input',
-						name: 'key',
-						message: 'Enter the key of the setting to change:'
+						type: "input",
+						name: "key",
+						message: "Enter the key of the setting to change:"
 					},
 					{
-						type: 'input',
-						name: 'value',
-						message: 'Enter the new value of the setting:'
+						type: "input",
+						name: "value",
+						message: "Enter the new value of the setting:"
 					}
 				]);
 				if (settings.getSetting(key) !== undefined) {
@@ -274,13 +283,13 @@ async function getUsername() {
 					});
 				}
 				break;
-			case 'config-get':
+			case "config-get":
 				const keyName = await inquirer
 					.prompt([
 						{
-							type: 'input',
-							name: 'key',
-							message: 'Enter the key of the setting to get:'
+							type: "input",
+							name: "key",
+							message: "Enter the key of the setting to get:"
 						}
 					])
 					.then(answer => answer.key);
@@ -295,30 +304,30 @@ async function getUsername() {
 					type: `error`,
 					msg: `The setting "${keyName}" does not exist.`
 				});
-			case 'config-reset':
+			case "config-reset":
 				const { reset } = await inquirer.prompt([
 					{
-						type: 'confirm',
-						name: 'reset',
-						message: 'Are you sure you want to reset all settings?'
+						type: "confirm",
+						name: "reset",
+						message: "Are you sure you want to reset all settings?"
 					}
 				]);
 				if (reset) createSettingsFile();
 				break;
-			case 'config-table':
+			case "config-table":
 				const allSettings = settings.getAllSettings();
 				const kv = Object.keys(allSettings).map(key => [
 					key,
 					allSettings[key]
 				]);
 				return console.table(kv);
-			case 'config-delete':
+			case "config-delete":
 				const { del } = await inquirer.prompt([
 					{
-						type: 'confirm',
-						name: 'del',
+						type: "confirm",
+						name: "del",
 						message:
-							'Are you sure you want to delete the config file? Note: Running ddgemail again will regenerate the config file.'
+							"Are you sure you want to delete the config file? Note: Running ddgemail again will regenerate the config file."
 					}
 				]);
 				if (del) {
