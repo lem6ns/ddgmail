@@ -49,10 +49,15 @@ const commands = {
 	"email-delete": {
 		desc: `Delete an email you have generated using ddgmail`
 	},
-	"category-change": { desc: `Change category of an email` }
-	// join: { desc: `Join the waitlist` },
-	// check: { desc: `Check if you are in the waitlist` },
-	// create: { desc: `Create an Email Protection account with an invite code` },
+	"change-forwarding-address": {
+		desc: `Change the forwarding address of your duck.com account`
+	},
+	"category-search": { desc: `Search for a category` },
+	"category-change": { desc: `Change category of an email` },
+	join: { desc: `Join the waitlist` },
+	check: { desc: `Check if you have a chance to get email protection` },
+	"get-code": { desc: `Get code` },
+	auth: { desc: `Manually trigger authentication` }
 };
 
 const helpText = meowHelp({
