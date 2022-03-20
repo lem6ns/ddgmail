@@ -24,6 +24,12 @@ const flags = {
 		alias: `n`,
 		desc: `Don't automatically copy to clipboard`,
 		default: false
+	},
+	category: {
+		type: `string`,
+		alias: `c`,
+		desc: `Category of the email`,
+		default: `E-Mail`
 	}
 };
 
@@ -38,7 +44,12 @@ const commands = {
 	"config-table": { desc: `Print config as a table` },
 	"config-set": { desc: `Set a config value` },
 	"config-get": { desc: `Get a config value` },
-	"config-reset": { desc: `Reset config to default` }
+	"config-reset": { desc: `Reset config to default` },
+	emails: { desc: `Get a list of emails you have generated using ddgmail` },
+	"email-delete": {
+		desc: `Delete an email you have generated using ddgmail`
+	},
+	"category-change": { desc: `Change category of an email` }
 	// join: { desc: `Join the waitlist` },
 	// check: { desc: `Check if you are in the waitlist` },
 	// create: { desc: `Create an Email Protection account with an invite code` },
