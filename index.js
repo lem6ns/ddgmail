@@ -354,14 +354,14 @@ async function getUsername() {
 			// #region Email
 			case "new":
 				const { category } = flags;
+				const usr = await getUsername();
 				let accessToken;
 				if (flags.accessToken) {
 					accessToken = flags.accessToken;
 				} else if (settings.getSetting("accessToken")) {
 					accessToken = settings.getSetting("accessToken");
 				} else {
-					const user = await getUsername();
-					accessToken = (await auth(user)).user["access_token"];
+					accessToken = (await auth(usr)).user["access_token"];
 				}
 
 				const address = await email.private.create(
