@@ -7,18 +7,6 @@ const flags = {
 		alias: `v`,
 		desc: `Print CLI version`
 	},
-	username: {
-		type: `string`,
-		alias: `u`,
-		desc: `Username of duck.com account`,
-		default: ``
-	},
-	accessToken: {
-		type: `string`,
-		alias: `t`,
-		desc: `Access token of duck.com account`,
-		default: ``
-	},
 	noClipboard: {
 		type: `boolean`,
 		alias: `n`,
